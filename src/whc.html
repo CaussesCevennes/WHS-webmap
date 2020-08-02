@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Le Patrimoine Mondial de l'UNESCO</title>
+
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+        <script src="lib/jquery.min.js"></script>
+        <script src="lib/jquery-resizable.js"></script>
+
+        <!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" />-->
+        <!--<script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"></script>-->
+        <link rel="stylesheet" href="lib/leaflet_1.6.0/leaflet.css" />
+        <script src="lib/leaflet_1.6.0/leaflet.js"></script>
+
+        <script src="lib/Leaflet.markercluster/leaflet.markercluster.js"></script>
+        <link rel="stylesheet" href="lib/Leaflet.markercluster/MarkerCluster.Default.css" />
+        <link rel="stylesheet" href="lib/Leaflet.markercluster/MarkerCluster.css" />
+
+        <script src="whc.js"></script>
+        <link rel="stylesheet" href="whc.css" />
+
+        <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
+
+
+    </head>
+
+
+    <body>
+        <div id="head">
+            <span id='title'>Les sites inscrits au Patrimoine Mondial de l'Humanité</span>
+            <img id='logo' src="icons/header_logo.png"/>
+        </div>
+
+        <div id="welcomeScreen" class="modal">
+          <span id="closeTuto" class="modalClose">&times;</span>
+          <div class='tuto step1 activeStep'>
+            <div class='welcomeText'>
+              <div lang='fr'>Découvrez les sites inscrits sur la liste du Patrimoine Mondial de l'Humanité</div>
+              <div lang='en'>Discover the sites inscribed on the World Heritage List</div>
+              <div lang='es'>Descubra los sitios inscritos en la Lista del Patrimonio Mundial</div>
+            </div>
+            <div class='welcomeSubText'>
+              <p lang=fr>Plus de 1000 sites sont aujoud'hui reconnus en tant que Patrimoine de l'Humanité. Cette cartographie vous permettra de mieux comprendre leur répartition géographique à travers le monde et de découvrir l'immense diversité de notre héritage culturel.</p>
+              <p lang=fr>Qu'il s'agisse de monuments architecturaux, de sites naturels ou bien de paysages façonnés par l'homme, chacun d'entre eux présente une valeur exceptionnelle pour tous les peuples du monde. C'est pourquoi, la protection de ce patrimoine universel et unique justifie un engagement de l'ensemble des nations. C'est notre devoir de transmission aux générations futures.</p>
+              <p lang=en>Over 1000 sites are recognized as World Heritage. This cartography will allow you to better understand their geographical distribution around the world and to discover the immense diversity of our cultural heritage.</p>
+              <p lang=en>Whether architectural monuments, natural sites or landscapes Man-made, each of them presents an exceptional value to all the peoples of the world. This is why the protection of this universal and unique heritage justifies a commitment from all the nations. It is our duty to transmit it to future generations.</p>
+              <p lang=es>Más de 1000 sitios son hoy reconocidos como Patrimonio de la Humanidad. Este mapeo le permitirá comprender mejor su distribución geográfica en todo el mundo y descubrir la inmensa diversidad de nuestro patrimonio cultural.</p>
+              <p lang=es>Ya sean monumentos arquitectónicos, sitios naturales o paisajes Hecho por el hombre, cada uno de ellos tiene un valor excepcional para todos los pueblos del mundo. Es por eso que la protección de este patrimonio universal y único justifica el compromiso de todas las naciones. Es nuestro deber transmitirlo a las generaciones futuras.</p>
+            </div>
+            <div class='tutoGraphic'>
+              <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+              <div id=startBt><div class='tutoBt'>
+                <span lang='fr'>Commencez</span>
+                <span lang='en'>Start</span>
+                <span lang='es'>Comenzar</span>
+              </div></div>
+            </div>
+          </div>
+
+          <div class='tuto step2'>
+            <div class='welcomeText'>
+              <div class='step1' lang='fr'>Naviguez sur la carte pour localiser les sites</div>
+              <div class='step1' lang='en'>Move the map to locate the sites</div>
+              <div class='step1' lang='es'>Navega en el mapa para localizar los sitios</div>
+            </div>
+            <div class='tutoGraphic'>
+              <div class='graphic gesture'>
+                <img src='icons/gestures/Pinch-zoom-in.svg'></img>
+                <p lang=fr>Zoomer</p><p lang=en>Zoom in</p><p lang=es>Amplía</p>
+              </div>
+              <div class='graphic gesture'>
+                <img src='icons/gestures/Pan.svg'></img>
+                <p lang=fr>Déplacer</p><p lang=en>Move</p><p lang=es>Movimiento</p>
+              </div>
+              <div class='graphic gesture'>
+                <img src='icons/gestures/Pinch-zoom-out.svg'></img>
+                <p lang=fr>Dézoomer</p><p lang=en>Zoom out</p><p lang=es>Alejar</p>
+              </div>
+            </div>
+          </div>
+
+          <div class='tuto step3'>
+            <div class='welcomeText'>
+              <div class='step1' lang='fr'>Sélectionner un site pour découvrir des photos et sa description détaillée</div>
+              <div class='step1' lang='en'>Select a site to discover photos and its detailed description</div>
+              <div class='step1' lang='es'>Seleccione un sitio para descubrir fotos y su descripción detallada</div>
+            </div>
+            <div class='tutoGraphic'>
+              <div class='graphic gesture'>
+                <img src='icons/gestures/Tap.svg'></img>
+                <p lang=fr>Toucher</p><p lang=en>Tap</p><p lang=es>Tocar</p>
+              </div>
+            </div>
+          </div>
+
+          <div class='tuto step4'>
+            <div class='welcomeText'>
+              <div class='step1' lang='fr'>Utilisez les onglets sur la droite pour naviguer entre les différents panneaux et outils</div>
+              <div class='step1' lang='en'>Use the tabs on the right to navigate between the different panels and tools</div>
+              <div class='step1' lang='es'>Use las pestañas de la derecha para navegar entre los diferentes paneles y herramientas</div>
+            </div>
+            <div class='tutoGraphic'>
+              <div class='graphic tabIcon'>
+                <img src='icons/home_white.svg'></img>
+                <p lang=fr>Filtrer les sites par catégorie pour observer leur répartition géographique</p>
+                <p lang=en>Filter out sites by category to observe their geographic distribution</p>
+                <p lang=es>Filtrar sitios por categoría para observar su distribución geográfica</p>
+              </div>
+              <div class='graphic tabIcon'>
+                <img src='icons/target_white.svg'></img>
+                <p lang=fr>Faites des focus sur les grandes régions culturelles de notre monde</p>
+                <p lang=en>Focus map on the major cultural regions of our world</p>
+                <p lang=es>Centrarse en las principales regiones culturales de nuestro mundo</p>
+              </div>
+              <div class='graphic tabIcon'>
+                <img src='icons/infos_white.svg'></img>
+                <p lang=fr>Consulter les caractéristiques, les photos et la description d'un site</p>
+                <p lang=en>Display the characteristics, photos and description of a site</p>
+                <p lang=es>Consulte las características, fotos y descripción de un sitio.</p>
+              </div>
+              <div class='graphic tabIcon'>
+                <img src='icons/search_white.svg'></img>
+                <p lang=fr>Lister tous les sites d'un pays pour faire une recherche ciblée</p>
+                <p lang=en>List all sites in a country to do targeted research</p>
+                <p lang=es>Enumerar todos los sitios en un país para realizar investigaciones específicas</p>
+              </div>
+            </div>
+          </div>
+
+          <div id='welcomeFooter'>
+            <div id='welcomeLang'></div>
+            <div><div class='tutoBt tutoNextBt'>
+              <span lang='fr'>Suivant</span>
+              <span lang='en'>Next</span>
+              <span lang='es'>Próximo</span>
+            </div></div>
+          </div>
+        </div>
+
+        <div id="container">
+
+            <div id="map">
+              <button id="tabBt_home" class='tabBt activeTab'></button>
+              <button id="tabBt_focus" class='tabBt'></button>
+              <button id="tabBt_infos" class='tabBt'></button>
+              <button id="tabBt_search" class='tabBt'></button>
+
+            </div>
+
+            <div id="sideView" >
+
+                <div id="split" ></div>
+
+                <div class='panel'>
+
+                  <div id="home_panel" class='panelContent activeTab'>
+
+                    <div id="filters">
+                      <div class="uiEntry">
+                        <p lang="fr">Les catégories de sites</p>
+                        <p lang="en">Site categories</p>
+                        <p lang="es">Categorías de sitio</p>
+                      </div>
+                      <div class="chk">
+                          <img src="icons/symbol_natural.svg" class='symbolCat'></img>
+                          <span class="chkLabel" lang="fr">Naturel</span><span class="chkLabel" lang="en">Natural</span><span class="chkLabel" lang="es">Natural</span>
+                          <label class="switch">
+                            <input id='natural' class='chkFilter' type='checkbox'><span class="slider round"></span></input>
+                          </label>
+                      </div>
+                      <div class="chk">
+                          <img src="icons/symbol_cultural.svg" class='symbolCat'></img>
+                          <span class="chkLabel" lang="fr">Culturel</span><span class="chkLabel" lang="en">Cultural</span><span class="chkLabel" lang="es">Cultural</span>
+                          <label class="switch">
+                            <input id='cultural' class='chkFilter' type='checkbox'><span class="slider round"></span></input>
+                          </label>
+                      </div>
+                      <div class="chk">
+                          <img src="icons/symbol_cultural_landscape.svg" class='symbolCat'></img>
+                          <span class="chkLabel" lang="fr">Paysage culturel</span><span class="chkLabel" lang="en">Cultural landscape</span><span class="chkLabel" lang="es">Paisaje cultural</span>
+                          <label class="switch">
+                            <input id='cultural_landscape' class='chkFilter' type='checkbox'><span class="slider round"></span></input>
+                          </label>
+                      </div>
+                      <div class="chk">
+                          <img src="icons/symbol_mixed.svg" class='symbolCat'></img>
+                          <span class="chkLabel" lang="fr">Mixte</span><span class="chkLabel" lang="en">Mixed</span><span class="chkLabel" lang="es">Mixto</span>
+                          <label class="switch">
+                            <input id='mixed' class='chkFilter' type='checkbox'><span class="slider round"></span></input>
+                          </label>
+                      </div>
+                      <div class="chk">
+                          <img src="icons/symbol_danger.svg" class='symbolCat'></img>
+                          <span class="chkLabel" lang="fr">En péril</span><span class="chkLabel" lang="en">In danger</span><span class="chkLabel" lang="es">En peligro</span>
+                          <label class="switch">
+                            <input id='danger' class='chkFilter' type='checkbox'><span class="slider round"></span></input>
+                          </label>
+                      </div>
+                    </div>
+
+                    <div id="C&C">
+                      <div class="uiEntry">
+                        <p lang="fr">Les Causses et les Cévennes</p>
+                        <p lang="en">The Causses and Cévennes</p>
+                        <p lang="es">Causses y Cévennes</p>
+                      </div>
+
+                      <div id=sheep>
+                        <img src="icons/running_sheep.svg" class='symbolSheep'></img>
+                        <div class='followMe'><span lang=fr>Suivez moi !</span><span lang=en>Follow me !</span><span lang=es>Sígame !</span></div>
+                      </div>
+                    </div>
+
+                    <div id="twins">
+                      <div class="uiEntry">
+                        <p lang="fr">Découvrez nos jumeaux</p>
+                        <p lang="en">Discover our twins</p>
+                        <p lang="es">Descubre a nuestros gemelos</p>
+                      </div>
+
+                      <div>
+                        <img src="icons/twins.svg" class='symbolTwin'></img>
+                        <div id=twin1 class='twinBt'><span lang=fr>Andorre</span><span lang=en>Andorra</span><span lang=es>Andorre</span></div>
+                        <div id=twin2 class='twinBt'><span lang=fr>Chine</span><span lang=en>China</span><span lang=es>China</span></div>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  <div id="focus_panel" class='panelContent'>
+
+                    <div id="focusContainer">
+                      <div class="uiEntry">
+                        <p lang="fr">Les zones géographiques</p>
+                        <p lang="en">Geographical areas</p>
+                        <p lang="es">Áreas geográficas</p>
+                      </div>
+                      <!-- buttons will go here-->
+                    </div>
+
+                  </div>
+
+                  <div id="infos_panel" class='panelContent'>
+                    <div id="infos_helper" style="display:none;">
+                      <div lang='fr'>Sélectionner un site sur la carte !</div>
+                      <div lang='en'>Please select a site on the map !</div>
+                      <div lang='es'>Seleccione un sitio en el mapa !</div>
+                    </div>
+
+
+                    <div id="fullScreenPhoto" class="modal">
+                      <span class="modalClose">&times;</span>
+                      <div id='modalPhotoGallery'>
+                      </div>
+                    </div>
+
+                    <div id='infos_content' style="display:none;">
+                      <div id="infosTitle" >
+                        <span id=siteName></span>
+                        <div id="typeSite">
+                          <img id='typeSiteIcon' src='' ></img>
+                          <div id="typeSiteLabel" ></div>
+                        </div>
+                      </div>
+
+                      <div id="countries">
+                        <!--<div id=iso_code class='countryEntry'><img class='flag' src=''></img><span class='value'>the country</span></div>-->
+                      </div>
+
+                      <div>
+                        <span class='field'>
+                          <span lang=fr>Année d'inscription : </span>
+                          <span lang=en>Year of inscription : </span>
+                          <span lang=es>Año de registro : </span>
+                        </span>
+                        <span id=year></span>
+                      </div>
+
+                      <div>
+                        <span class='field'>
+                          <span lang=fr>Superficie : </span>
+                          <span lang=en>Area : </span>
+                          <span lang=es>área : </span>
+                        </span>
+                        <span id=area></span>
+                      </div>
+
+                      <div id="_photoContainer" style='display:none;'>
+                        <button id="left" class="switchLeft"><img src="icons/arrow_left.svg"></img></button>
+                        <!-- <img id="photo" src=""></img> -->
+                        <div id="photo"><div class='copyright'></div></div> <!--using div instead of img allow to display only a portion of the image-->
+                        <button id="right" class="switchRight"><img src="icons/arrow_right.svg"></img></button>
+                      </div>
+
+                      <div id="photoContainer"></div>
+
+                      <div id="description"></div>
+                    </div>
+                  </div>
+
+                  <div id="search_panel" class='panelContent'>
+                    <div class="uiEntry">
+                      <p lang='fr'>Choisissez un pays</p>
+                      <p lang='en'>Choose a country</p>
+                      <p lang='es'>Elige un pais</p>
+                    </div>
+
+
+                    <div id='alphaShortcut'>
+                      <!-- <button class='letterBt'></button> -->
+                    </div>
+
+                    <ul id="fixedCountry" style='display:none;'>
+                      <li id='fr' lang='id'><img src='icons/country_flags/fr.svg'></img><span>France</span></li>
+                    </ul>
+
+                    <ul id="countries_list">
+                      <!-- <li id=iso_code><img src=xxx.svg></img><span>country name</span></li> -->
+                    </ul>
+                    <div class="uiEntry">
+                      <p lang='fr'>Sélectionner un site</p>
+                      <p lang='en'>Select a site</p>
+                      <p lang='es'>Seleccione un sitio</p>
+                    </div>
+                    <ul id="whsByCountry_list">
+                      <!-- <li id=wh_number><img src=category.svg></img><span>wh site name</span></li> -->
+                    </ul>
+                  </div>
+
+                </div>
+
+                <div id='bottomBar'>
+                <div id="language">
+                  <img id="fr" class='langItem' src='icons/fr.svg'></img>
+                  <img id="en" class='langItem' src='icons/gb.svg'></img>
+                  <img id="es" class='langItem' src='icons/es.svg'></img>
+                </div>
+                <div id='world'><img src='icons/earth.svg'></img></div>
+                <div id='help'><img src='icons/help.svg'></img></div>
+              </div>
+
+
+
+            </div>
+
+        </div>
+    </body>
+
+</html>

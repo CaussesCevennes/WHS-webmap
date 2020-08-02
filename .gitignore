@@ -1,0 +1,17 @@
+notes
+src/bluemarble
+src/photos
+src/lib/*eaflet*
+src/lib/jquery*
+src/data/natural_earth*
+ressources/countries/*.zip
+ressources/data
+ressources/Photos/WHC_website_raw_xls_exports
+ressources/Photos/archive
+ressources/Photos/whc_photos_scrap.ods
+ressources/Photos/*.odt
+ressources/Photos/*.json
+ressources/Photos/*.csv
+ressources/WHSites/*.gpkg
+ressources/photos.zip
+infos.md

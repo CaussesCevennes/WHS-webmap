@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg3039"
+   sodipodi:docname="nophoto.svg"
+   viewBox="0 0 75 75"
+   version="1.1"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <defs
+     id="defs12" />
+  <sodipodi:namedview
+     id="namedview3041"
+     fit-margin-left="0"
+     inkscape:zoom="5.6568542"
+     borderopacity="1"
+     inkscape:current-layer="svg3039"
+     inkscape:cx="34.067057"
+     inkscape:guide-bbox="true"
+     inkscape:window-maximized="1"
+     showgrid="false"
+     fit-margin-right="0"
+     showguides="true"
+     bordercolor="#666666"
+     inkscape:window-x="0"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:window-y="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1920"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     pagecolor="#ffffff"
+     gridtolerance="10"
+     inkscape:cy="33.354775"
+     inkscape:window-height="1012"
+     fit-margin-top="0" />
+  <g
+     id="g3892"
+     transform="matrix(0.27061551,0,0,0.27061551,-4.5617203,48.59299)">
+    <circle
+       id="path3869"
+       style="fill:#2c5aa0;fill-opacity:1"
+       transform="matrix(1.5152,0,0,1.5152,-141.35,1.7976)"
+       cx="195.86858"
+       cy="-28.237591"
+       r="24.748737" />
+    <g
+       id="g3887"
+       transform="translate(-2.5543e-6,1.4181e-6)">
+      <path
+         id="rect3071"
+         sodipodi:nodetypes="cccccccccccc"
+         style="fill:#ffffff"
+         inkscape:connector-curvature="0"
+         d="m 130.43,-50.131 h 6.25 6.25 l 6.25,-8 h 6.25 6.25 l 6.25,8 h 6.25 6.25 v 25 h -50 z" />
+      <circle
+         id="path3851"
+         style="fill:#ffffff;stroke:#2c5aa0;stroke-width:1.81889999;stroke-linecap:square;stroke-opacity:1"
+         transform="matrix(1.0996,0,0,1.0996,109.95,-82.434)"
+         cx="41.365746"
+         cy="38.584"
+         r="13.788582" />
+      <circle
+         id="path3853"
+         style="fill:#2c5aa0;fill-opacity:1"
+         transform="matrix(1.307,0,0,1.307,105.77,-92.289)"
+         cx="38"
+         cy="40"
+         r="8" />
+    </g>
+  </g>
+  <metadata
+     id="metadata9">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>Camera</dc:title>
+        <dc:date>2012-10-29T03:23:26</dc:date>
+        <dc:description />
+        <dc:source>https://openclipart.org/detail/172916/camera-by-eternaltyro-172916</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>eternaltyro</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>Camera</rdf:li>
+            <rdf:li>photo</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>
