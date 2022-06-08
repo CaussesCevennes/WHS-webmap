@@ -19,7 +19,7 @@ from PIL import Image
 class WHC_Photos():
 
     #blacklisted documents : csv in the form documentID;reason
-    blacklistFile = os.path.dirname(__file__) + os.sep + 'blacklist.csv'
+    blacklistFile = os.path.dirname(os.path.abspath(__file__)) + os.sep + 'blacklist.csv'
 
     minRes = 1000 #minimum resolution that will be considered as a "good resolution", influence the resulting score
     maxRes = 2500 #maximum resolution, downloaded photos that exceed this value in width or height will be resized
@@ -225,16 +225,40 @@ class WHC_Photos():
                 data = [{k:v for k,v in photo.items() if k in fields} for photo in self.photos[site][:limit]]
                 writer.writerows(data)
 
-    def export2json(self, output, pretty=False, limit=1000, fields=None):
+    def export2json(self, output, pretty=False, limit=50, fields=None):
         logging.info('Writing json...')
         if fields is None:
             fields = self.getFields()
+        #create a new dict to filter unselected fields and apply limit
+        data = {}
+        for site in self.photos:
+            data[site] = [{k:v for k,v in photo.items() if k in fields} for photo in self.photos[site][:limit]]
+        #write
         with open(output, 'w', encoding="utf8") as f:
-            #create a new dict to filter unselected fields and apply limit
-            data = {}
-            for site in self.photos:
+            if pretty:
+                f.write(json.dumps(data, indent=4))
+            else:
+                f.write(json.dumps(data))
+
+    def append2json(self, output, pretty=False, limit=50, fields=None):
+        if not os.path.exists(output):
+            raise IOError('Json file does not exists, cannot append data')
+        logging.info('Writing json...')
+        if fields is None:
+            fields = self.getFields()
+        with open(output, 'r', encoding="utf8") as f:
+            data = json.load(f)
+        for site in self.photos:
+            if site in data:
+                for photo in self.photos[site]:
+                    if len(data[site]) >= limit:
+                        break
+                    if photo['id'] not in [_photo['id'] for _photo in data[site]]:
+                        data[site].append({k:v for k,v in photo.items() if k in fields})
+            else:
                 data[site] = [{k:v for k,v in photo.items() if k in fields} for photo in self.photos[site][:limit]]
-            #write
+        #Overwrite file
+        with open(output, 'w', encoding="utf8") as f:
             if pretty:
                 f.write(json.dumps(data, indent=4))
             else:
@@ -270,7 +294,9 @@ class WHC_Photos():
                 logging.info('[{}/{}] Site {} downloading {}'.format(self.cptJobs, self.nJobs, row['site'], row['url']))
 
             path = self.outFolder + os.sep + self._getName(row)
-            r = requests.get(row['url'])
+
+            url = 'https://whc.unesco.org/document/' + str(row['id'])
+            r = requests.get(url)
             if r.status_code == 200:
                 '''
                 with open(path, 'wb') as f:
@@ -345,18 +371,18 @@ class WHC_Photos():
 
 
 if __name__ == '__main__':
-    folder = os.path.dirname(__file__)
+    folder = os.path.dirname(os.path.abspath(__file__))
 
     #INIT
     input = folder + os.sep + 'whc_photos.csv'
-    outFolder = '/mnt/DATA/whc/photos'
+    outFolder = folder + os.sep + 'photos'
     photos = WHC_Photos(input, outFolder)
 
     #Download
     photos.download(limit=200, nbThreads=4)
 
     #CSV export
-    photos.synchronize()
+    photos.synchronize(purge=False)
     output = folder + os.sep + 'whc_photos_sync.csv'
     photos.export2csv(output)
 
@@ -364,4 +390,5 @@ if __name__ == '__main__':
     photos.purge()
     photos.sort()
     output = folder + os.sep + 'photos.json'
-    photos.export2json(output, fields=['id', 'copyright', 'license', 'thumb'], limit=50)
+    #photos.export2json(output, fields=['id', 'copyright', 'license', 'thumb'], limit=50)
+    photos.append2json(output, fields=['id', 'copyright', 'license', 'thumb'], limit=50)

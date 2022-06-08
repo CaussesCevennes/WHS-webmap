@@ -5,6 +5,7 @@ var app = {
   supportedLang : ['fr', 'en', 'es'],
 
   localPhotos : true,
+  offlineBasemap : false,
   //avoid storing full url in the json file
   photoThumbRootUrl : "https://whc.unesco.org/uploads/thumbs/",
   photoFullRootUrl : "https://whc.unesco.org/document/",
@@ -243,46 +244,32 @@ var app = {
     //self.tocLayers = L.control.layers(null, null, {position:'topleft'});
     //self.tocLayers.addTo(self.map);
 
-    self.baseLayers['osm'] = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-      continuousWorld: false,
-      noWrap: true,
-      minZoom: 9,
-      attribution: 'OpenStreetMap contributors'
-    }).addTo(self.map);
-    //self.tocLayers.addOverlay(self.baseLayers['osm'], "OpenStreetMap");
-
-    self.baseLayers['bluemarble'] = L.tileLayer('tiles/{z}/{x}/{y}.jpg', {
-        tms: true,
+    if (self.offlineBasemap) {
+      self.baseLayers['stamen_terrain'] = L.tileLayer('assets/basemaps/stamen_terrain/{z}/{x}/{y}.png', {
         continuousWorld: false,
         noWrap: true,
-        //maxNativeZoom: 8,
-        maxZoom: 5,
-        attribution: 'NASA Bluemarble'
-    });//.addTo(self.map);
-    //self.tocLayers.addOverlay(self.baseLayers['bluemarble'], "Bluemarble");
+        attribution: 'Stamen Map Design',
+        maxNativeZoom: 10,
+        maxZoom: 12,
+        ext: 'png',
+        tms: true
+      }).addTo(self.map);
+    } else {
+      self.baseLayers['stamen_terrain'] = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{r}.{ext}', {
+        continuousWorld: false,
+        noWrap: true,
+        attribution: 'Stamen Map Design',
+        subdomains: 'abcd',
+        minZoom: 0,
+        maxZoom: 9,//ISSUE : lot of 404 errors with levels 9 and 10
+        ext: 'png',
+      }).addTo(self.map);
+    }
 
-    self.baseLayers['stamen_terrain'] = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{r}.{ext}', {
-      continuousWorld: false,
-      noWrap: true,
-      attribution: 'Stamen Map Design',
-      subdomains: 'abcd',
-      minZoom: 0,
-      maxZoom: 8, //ISSUE : lot of 404 errors with levels 9 and 10
-      ext: 'png'
-    }).addTo(self.map);
-
-
-    self.baseLayers['stamen_toner_labels'] = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}{r}.{ext}', {
-      attribution: 'Stamen Map Design CC BY 3.0',
-      subdomains: 'abcd',
-      minZoom: 0,
-      maxZoom: 18,
-      ext: 'png'
-    });//.addTo(self.map);
 
     //add container filters
     $(self.baseLayers['stamen_terrain'].getContainer()).addClass('basemap');
-    $(self.baseLayers['stamen_toner_labels'].getContainer()).addClass('basemap-labels');
+
 
     //setup clusters
     self.markersCluster = new L.MarkerClusterGroup({
@@ -364,7 +351,7 @@ var app = {
 
     //set C&C limits display zoom levels
     self.map.on('zoomend', function () {
-        console.log('Zoom level ' + self.map.getZoom());
+        //console.log('Zoom level ' + self.map.getZoom());
         if (self.map.getZoom() > 5 ) {
           self.map.addLayer(self.baseLayers['cc']);
         } else if (self.map.hasLayer(self.baseLayers['cc'])){
@@ -948,7 +935,11 @@ var app = {
     var self = this;
     photos.forEach(function(photo, idx){
       if (self.localPhotos){
-        var url = 'photos/' + self.selectedMark.feature.properties.id_number.padStart(4, '0') + '_' + photo['id'] + '.jpg';
+        let id = self.selectedMark.feature.properties.id_number;
+        if (typeof id == 'number'){
+          id = id.toString();
+        }
+        var url = 'assets/photos/' + id.padStart(4, '0') + '_' + photo['id'] + '.jpg';
         var url_thumb = url;
       } else {
         var url_thumb = self.photoThumbRootUrl + photo['thumb'];
