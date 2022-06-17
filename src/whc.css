@@ -876,6 +876,27 @@ input:checked + .slider:before {
 }
 
 /* ########################################
+   Leaflet popup
+   ######################################## */
+
+/*Hauts lieux*/
+
+.hl_popup_header{
+  text-align:center;
+}
+
+.hl_popup img{
+  max-width:100%;
+  height:auto;
+}
+
+.hl_name{
+  font-size:1.25em;
+  font-weight: bold;
+}
+
+
+/* ########################################
    Cluster
    ######################################## */
 

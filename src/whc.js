@@ -87,7 +87,8 @@ var app = {
       'cultural_danger' : L.icon($.extend({iconUrl: 'icons/marker_cultural_danger.svg'}, danger)),
       'cultural_landscape_danger' : L.icon($.extend({iconUrl: 'icons/marker_cultural_landscape_danger.svg'}, danger)),
       'mixed_landscape_danger' : L.icon($.extend({iconUrl: 'icons/marker_mixed_landscape_danger.svg'}, danger)),
-      'mixed_danger' : L.icon($.extend({iconUrl: 'icons/marker_mixed_danger.svg'}, danger))
+      'mixed_danger' : L.icon($.extend({iconUrl: 'icons/marker_mixed_danger.svg'}, danger)),
+      'hauts_lieux' : L.icon($.extend({iconUrl: 'icons/sheep.svg'},  {iconSize: [50, 80],popupAnchor: [0, -20]}))
     };
   },
 
@@ -261,7 +262,8 @@ var app = {
         attribution: 'Stamen Map Design',
         subdomains: 'abcd',
         minZoom: 0,
-        maxZoom: 9,//ISSUE : lot of 404 errors with levels 9 and 10
+        maxNativeZoom: 10, //ISSUE : lot of 404 errors with higher zoom levels
+        maxZoom: 12,
         ext: 'png',
       }).addTo(self.map);
     }
@@ -349,15 +351,68 @@ var app = {
       });//.addTo(self.map);
     });
 
-    //set C&C limits display zoom levels
+    //set layers display zoom levels
     self.map.on('zoomend', function () {
         //console.log('Zoom level ' + self.map.getZoom());
+        //C&C limits
         if (self.map.getZoom() > 5 ) {
           self.map.addLayer(self.baseLayers['cc']);
         } else if (self.map.hasLayer(self.baseLayers['cc'])){
           self.map.removeLayer(self.baseLayers['cc']);
         };
+        //Hauts lieux
+        if (self.map.getZoom() >= 9 ) {
+          self.map.addLayer(self.baseLayers['hauts_lieux']);
+        } else if (self.map.hasLayer(self.baseLayers['hauts_lieux'])){
+          self.map.removeLayer(self.baseLayers['hauts_lieux']);
+        };
+
     });
+
+    //Hauts lieux
+    $.getJSON("data/hautslieux.geojson", function(data){
+      self.baseLayers['hauts_lieux'] = L.geoJson(data, {
+        pointToLayer: function (feature, latlng) {
+            return L.marker(latlng, {icon: self.locIcons['hauts_lieux']});
+        },
+        onEachFeature: function (feature, layer) {
+            let popup = L.popup({autoClose: false});
+            popup.setContent(function() {
+              //$('<div>').addClass('hl_popup').append($('<div>').addClass('hl_popup_header')) ...
+              let html = "<div class='hl_popup'>"
+                + "<div class='hl_popup_header'>"
+                + `<span class='hl_name'>${feature.properties[self.language + '_nom']}</span>`
+                + "<br>";
+                if (self.language == 'fr'){
+                  html += "<span>Haut lieu de l'agropastoralisme</span>";
+                } else if (self.language == 'en') {
+                  html += "<span>Major place of agropastoralism</span>";
+                } else if (self.language == 'es') {
+                  html += "<span>Un alto lugar del agropastoralismo</span>";
+                };
+                html += "</div>";
+                html +=  `<img src='assets/photos_hauts_lieux/${feature.properties['id']}.jpg'></img>`;
+                if (self.language == 'fr'){
+                  html += "<span>Ouvert au public, visite libre</span>";
+                } else if (self.language == 'en') {
+                  html += "<span>Open to the public, free visit</span>";
+                } else if (self.language == 'es') {
+                  html += "<span>Abierto al público, visita libre</span>";
+                };
+                html += "</div>";
+              return html
+            });
+            layer.bindPopup(popup, {maxWidth : 600});
+            layer.on('click', function (e){
+                layer.openPopup();
+            });
+            layer.on('mouseout', function (e){
+              layer.closePopup();
+            });
+        }
+      });//.addTo(self.map);
+    });
+
 
     //Setup legend control
     self.layerLegends = {
@@ -431,7 +486,7 @@ var app = {
             return L.marker(latlng, {icon: self.locIcons[self.getSymbol(feature.properties)]});
         },
         onEachFeature: function (feature, layer) {
-            var popup = L.popup({autoClose: false});
+            let popup = L.popup({autoClose: false});
             popup.setContent(function() {return feature.properties[self.language+'_site'];});
             layer.bindPopup(popup);
             layer.on('mouseover', function (e){
