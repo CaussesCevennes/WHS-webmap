@@ -4,6 +4,7 @@
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
 "features": [
 { "type": "Feature", "properties": { "fr_nom": "La maison du site à Florac", "id": "Florac", "en_nom": "The site home in Florac", "es_nom": "El centro del sitio de la Unesco en Florac" }, "geometry": { "type": "Point", "coordinates": [ 3.59525, 44.32451 ] } },
-{ "type": "Feature", "properties": { "fr_nom": "Le domaine des Boissets", "id": "Boissets", "en_nom": "The farm of Boissets", "es_nom": "La finca de Boissets" }, "geometry": { "type": "Point", "coordinates": [ 3.43508, 44.37427 ] } }
+{ "type": "Feature", "properties": { "fr_nom": "Le domaine des Boissets", "id": "Boissets", "en_nom": "The farm of Boissets", "es_nom": "La finca de Boissets" }, "geometry": { "type": "Point", "coordinates": [ 3.43508, 44.37427 ] } },
+{ "type": "Feature", "properties": { "fr_nom": "Maison du Grand Site du Cirque de Navacelles", "id": "Navacelles", "en_nom": "House of the Cirque de Navacelles Grand Site", "es_nom": "Casa del Gran Sitio del Circo de Navacelles" }, "geometry": { "type": "Point", "coordinates": [ 3.516014128326165, 43.902227284765907 ] } }
 ]
 }

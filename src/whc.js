@@ -5,7 +5,7 @@ var app = {
   supportedLang : ['fr', 'en', 'es'],
 
   localPhotos : true,
-  offlineBasemap : false,
+  offlineBasemap : true,
   //avoid storing full url in the json file
   photoThumbRootUrl : "https://whc.unesco.org/uploads/thumbs/",
   photoFullRootUrl : "https://whc.unesco.org/document/",
@@ -384,7 +384,7 @@ var app = {
                 + `<span class='hl_name'>${feature.properties[self.language + '_nom']}</span>`
                 + "<br>";
                 if (self.language == 'fr'){
-                  html += "<span>Haut lieu de l'agropastoralisme</span>";
+                  html += "<span>Haut-lieu de l'agropastoralisme</span>";
                 } else if (self.language == 'en') {
                   html += "<span>Major place of agropastoralism</span>";
                 } else if (self.language == 'es') {
@@ -421,8 +421,8 @@ var app = {
     var ccLeg = L.control({position: 'bottomright'});
     ccLeg.onAdd = function (map) {
         var div = L.DomUtil.create('div', 'legend cc');
-        div.innerHTML += '<i style="border:2px dashed black; background:transparent;"></i><p>Zone inscrite</p>';
-        div.innerHTML += '<i style="border:2px dashed red; background:transparent;"></i><p>Zone tampon</p>';
+        div.innerHTML += '<i style="border:2px dashed black; background:transparent;"></i><p>Zone tampon</p>';
+        div.innerHTML += '<i style="border:2px dashed red; background:transparent;"></i><p>Zone inscrite</p>';
         return div;
     };
 
@@ -603,16 +603,16 @@ var app = {
 
 
   //select a wh site by its country code and id
-  //TODO actually whs data has stored only in whsByCountry array and in layerGroups array of markers goups by category
+  //TODO actually whs data has stored only in whsByCountry array and in layerGroups array of markers groups by category
   //so there isn't global dictionnary of sites given by their id number, accessing data is only possible by country or by category
   //we need a work around here
   selectById : function(country, id){
     let self = this;
     $('.chkFilter:checked').prop('checked', false).change();
     var site = self.whsByCountry[country].find(elem => elem.id_number == id);
-    self.map.flyTo(L.latLng(site['latitude'], site['longitude']), self.flyToZoomLevel);
     var layGroup = self.layerGroups[self.getCategory(site)];
     var marker = layGroup.getLayers().find(elem => elem.feature.properties.id_number == site.id_number);
+    self.map.flyTo(marker.getLatLng(), self.flyToZoomLevel);
     self.selectWhSite(marker);
     self._synchSearchLists();
   },
@@ -875,11 +875,11 @@ var app = {
     $('#whsByCountry_list>#'+selectedSite).toggleClass("selected");
     var country = $('#countries_list>.selected').attr('id');
     var sites = self.whsByCountry[country];
-    var site = sites.find(elem => elem['id_number'] === selectedSite);
-    self.map.flyTo(L.latLng(site['latitude'], site['longitude']), self.flyToZoomLevel);
+    var site = sites.find(elem => elem['id_number'] == selectedSite);
     var layGroup;
     layGroup = self.layerGroups[self.getCategory(site)];
     var marker = layGroup.getLayers().find(elem => elem.feature.properties.id_number == site.id_number);
+    self.map.flyTo(marker.getLatLng(), self.flyToZoomLevel);
     self.selectWhSite(marker);
   },
 
